@@ -1,7 +1,7 @@
 # hangman.py
-# Name: 
-# Collaborators:
-# Time spent:
+# Name: Natalie Keeler
+# Worked by myself, with some help from ChatGPT and Google Gemini
+# Time spent: approx. 6 hours 30 min
 
 # Hangman Game
 # -----------------------------------
@@ -84,7 +84,7 @@ def get_guessed_word(secret_word, letters_guessed):
         is_guessed = False
         for j in range (len(letters_guessed)):
            try:
-                if secret_word[i] == letters_guessed[j][0]:
+                if secret_word[i] == letters_guessed[j]:
                     guessed_word = guessed_word + letters_guessed[j]
                     guessed_word = guessed_word + " "
                     is_guessed = True
@@ -106,7 +106,7 @@ def get_available_letters(letters_guessed):
     for i in range (len(available_letters)):
         for j in range (len(letters_guessed)):
             try:
-                if available_letters[i] == letters_guessed[j][0]:
+                if available_letters[i] == letters_guessed[j]:
                     available_letters = available_letters.replace(available_letters[i], "")
             except:
                 pass
@@ -127,7 +127,7 @@ def hangman(secret_word):
     warnings_left = 3
     letters_guessed = list()
     current_word = get_guessed_word(secret_word, letters_guessed)
-    print("Welcome to the game Hangman!")
+    print("------------------")
     print(f"I am thinking of a word that is {len(secret_word)} letters long.")
     print("------------------")
     while guesses_left > 0 and not is_word_guessed(secret_word, letters_guessed):
@@ -167,7 +167,7 @@ def hangman(secret_word):
         print("Congratulations, you won!")
         print(f"Your total score for this game is: {calculate_score(secret_word, guesses_left)}")
     else:
-        print("Sorry, you ran out of guesses! The word was ", secret_word, ".")
+        print(f"Sorry, you ran out of guesses! The word was {secret_word}.")
 
 # When you've completed your hangman function, scroll down to the bottom
 # of the file and uncomment the first two lines to test
@@ -229,8 +229,9 @@ def hangman_with_hints(secret_word):
     warnings_left = 3
     letters_guessed = list()
     current_word = get_guessed_word(secret_word, letters_guessed)
-    print("Welcome to the game Hangman!")
+    print("------------------")
     print(f"I am thinking of a word that is {len(secret_word)} letters long.")
+    print("You can get a hint by typing '*'.")
     print("------------------")
     while guesses_left > 0 and not is_word_guessed(secret_word, letters_guessed):
         print("You have", guesses_left, "guesses left.")
@@ -273,8 +274,7 @@ def hangman_with_hints(secret_word):
         print("Congratulations, you won!")
         print(f"Your total score for this game is: {calculate_score(secret_word, guesses_left)}")
     else:
-        print("Sorry, you ran out of guesses! The word was ", secret_word, ".")
-
+        print(f"Sorry, you ran out of guesses! The word was {secret_word}.")
 
 
 # When you've completed your hangman_with_hint function, comment the two similar
@@ -284,19 +284,39 @@ def hangman_with_hints(secret_word):
 
 
 if __name__ == "__main__":
-    # pass
+   # Bonus loop to allow for playing either game as many times as you want!
+    want_to_play = True
+    print("------------------")
+    print("Welcome to the game Hangman!")
+    while want_to_play:
+        replay = ""
+        with_hints = input("Would you like to play with hints? (y/n): ").lower()
+        if with_hints == "y":
+            secret_word = choose_word(wordlist)
+            hangman_with_hints(secret_word)
+            while replay != "y" and replay != "n":
+                replay = input("Would you like to play again? (y/n): ").lower()
+                if replay == "y":
+                    pass
+                elif replay == "n":
+                    want_to_play = False
+                else:
+                    print("Sorry, please enter y or n.")
+        elif with_hints == "n":
+            secret_word = choose_word(wordlist)
+            hangman(secret_word)
+            while replay != "y" and replay != "n":
+                replay = input("Would you like to play again? (y/n): ").lower()
+                if replay == "y":
+                    pass
+                elif replay == "n":
+                    want_to_play = False
+                else:
+                    print("Sorry, please enter y or n.")
+        else:
+            print("Invalid input, please enter y or n.")
+    print("------------------")
+    print("Goodbye! Thank you for playing!")
 
-    # To test part 2, comment out the pass line above and
-    # uncomment the following two lines.
     
-    secret_word = choose_word(wordlist)
-    hangman(secret_word)
 
-
-###############
-    
-    # To test part 3 re-comment out the above lines and 
-    # uncomment the following two lines. 
-    
-    #secret_word = choose_word(wordlist)
-    #hangman_with_hints(secret_word)
